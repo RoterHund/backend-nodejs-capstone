@@ -113,8 +113,7 @@ router.delete('/:id', async (req, res, next) => {
       return res.status(404).json({ error: 'secondChanceItem not found' })
     }
     await collection.deleteOne({ id: itemId })
-    res.json({ 'deleted': 'success' })
-
+    res.json({ deleted: 'success' })
   } catch (e) {
     next(e)
   }
