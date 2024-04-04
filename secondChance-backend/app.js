@@ -7,7 +7,7 @@ const connectToDatabase = require('./models/db')
 
 const app = express()
 app.use('*', cors())
-const port = 3061
+const port = 3060
 
 connectToDatabase().then(() => {
   pinoLogger.info('Connected to DB')
