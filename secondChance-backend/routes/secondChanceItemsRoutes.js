@@ -1,10 +1,8 @@
 const express = require('express')
 const multer = require('multer')
-const path = require('path')
 const router = express.Router()
 const connectToDatabase = require('../models/db')
 const logger = require('../logger')
-const { getDefaultHighWaterMark } = require('stream')
 
 // Define the upload directory path
 const directoryPath = 'public/images'
@@ -13,10 +11,10 @@ const directoryPath = 'public/images'
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, directoryPath); // Specify the upload directory
-  },
+  }
   filename: function (req, file, cb) {
     cb(null, file.originalname); // Use the original file name
-  },
+  }
 })
 
 const upload = multer({ storage: storage })
@@ -25,14 +23,15 @@ const upload = multer({ storage: storage })
 router.get('/', async (req, res, next) => {
   logger.info('/ called')
   try {
-        //Step 2:
-      const db = await connectToDatabase()
-      const collection = db.collection("secondChanceItems")
-      const secondChanceItems = await collection.find({}).toArray()
-      res.json(secondChanceItems)
-  } catch (e) {
-      logger.console.error('oops something went wrong', e)
-      next(e)
+  //Step 2:
+  const db = await connectToDatabase()
+  const collection = db.collection("secondChanceItems")
+  const secondChanceItems = await collection.find({}).toArray()
+  res.json(secondChanceItems)
+  } 
+  catch (e) {
+  logger.console.error('oops something went wrong', e)
+  next(e)
   }
 });
 
