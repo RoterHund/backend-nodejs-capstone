@@ -10,10 +10,10 @@ router.get('/', async (req, res, next) => {
     const collection = db.collection(process.env.MONGO_COLLECTION)
 
     // Initialize the query object
-    let query = {}
+    const query = {}
 
     if (req.query.name && req.query.name.trim() !== '') {
-      query.name = { $regex: req.query.name, $options: "i" }; // Using regex for partial match, case-insensitive
+      query.name = { $regex: req.query.name, $options: 'i' } // Using regex for partial match, case-insensitive
     }
     if (req.query.category) {
       query.category = req.query.category
@@ -25,7 +25,6 @@ router.get('/', async (req, res, next) => {
       // {{insert code here}}
       query.age_years = { $lte: parseInt(req.query.age_years) }
     }
-      
     const gifts = await collection.find(query).toArray()
     res.json(gifts)
   } catch (e) {
