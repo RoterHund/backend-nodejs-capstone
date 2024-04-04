@@ -27,7 +27,7 @@ router.get('/', async (req, res, next) => {
     const collection = db.collection('secondChanceItems')
     const secondChanceItems = await collection.find({}).toArray()
     res.json(secondChanceItems)
-  }  catch (e) {
+  } catch (e) {
     logger.console.error('oops something went wrong', e)
     next(e)
   }
@@ -92,9 +92,9 @@ router.put('/:id', async (req, res, next) => {
       { returnDocument: 'after' }
     )
     if (updatepreloveItem) {
-      res.json({ "uploaded": "success" })
+      res.json({ uploaded: 'success' })
     } else {
-      res.json({ "uploaded": "failed" })
+      res.json({ uploaded: 'failed' })
     }
   } catch (e) {
     next(e)
@@ -110,10 +110,10 @@ router.delete('/:id', async (req, res, next) => {
     const secondChanceItem = await collection.findOne({ id: itemId })
     if (!secondChanceItem) {
       logger.error('secondChanceItem not found')
-      return res.status(404).json({ error: "secondChanceItem not found" })
+      return res.status(404).json({ error: 'secondChanceItem not found' })
     }
     await collection.deleteOne({ id: itemId })
-    res.json({ "deleted": "success" })
+    res.json({ 'deleted': 'success' })
 
   } catch (e) {
     next(e)
