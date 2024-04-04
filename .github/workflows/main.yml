@@ -1,0 +1,81 @@
+**Hands-on Lab: CI/CD with GitHub Actions**
+
+**Estimated time needed:** 30 minutes
+
+**Introduction:**
+
+As your team expands, ensuring code quality and adherence to coding standards becomes increasingly important. In this lab, we'll integrate linting into your GitHub repository using GitHub Actions. This will automate the code review process, providing feedback on code quality and ensuring adherence to coding standards.
+
+**Prerequisites:**
+- Backend and frontend codebase
+- GitHub repository with all code pushed to the main branch
+
+**Objective:**
+- Add linting to the repository using GitHub Actions
+- Automatically check for errors whenever a developer creates a pull request or merges a branch into the main branch
+
+**Instructions:**
+
+1. **Examine the GitHub Workflow:**
+
+```yaml
+name: 'CI/CD'
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+jobs:
+  lint_js:
+    name: Lint JavaScript Files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+      - name: Install and Run Linter
+        run: |
+          # This command finds all JavaScript files recursively and runs ESLint on them
+          npm init -y
+          npm install eslint eslint-config-standard eslint@^8.0.1 eslint-plugin-import@^2.25.2 eslint-plugin-n@^16.0.0  eslint-plugin-promise@^6.0.0
+          find ./secondChance-backend -name app.js -exec ./node_modules/.bin/eslint -c .eslintrc.js {} +
+          # Uncomment the following lines to lint other JavaScript files
+          # find ./secondChance-backend -name auth.js -exec ./node_modules/.bin/eslint -c .eslintrc.js {} +
+          # find ./secondChance-backend -name secondChanceItemsRoutes.js -exec ./node_modules/.bin/eslint -c .eslintrc.js {} +
+          # find ./secondChance-backend -name searchRoutes.js -exec ./node_modules/.bin/eslint -c .eslintrc.js {} +
+          # find ./secondChance-backend -name index.js -exec ./node_modules/.bin/eslint -c .eslintrc.js {} +
+          # find ./sentiment -name index.js -exec ./node_modules/.bin/eslint -c .eslintrc.js {} +
+          echo "Linted all the js files successfully"
+```
+
+2. **Understanding the Workflow:**
+   - This workflow is triggered on pushes to the main branch and when pull requests are created.
+   - It defines a single job named `lint_js` to lint JavaScript files.
+   - The job runs on an Ubuntu environment.
+   - It consists of three steps:
+     - **Checkout Repository:** Clones the repository into the workflow runner.
+     - **Install Node.js:** Sets up the Node.js runtime environment.
+     - **Install and Run Linter:** Installs ESLint and necessary plugins, then runs ESLint on JavaScript files.
+
+3. **Enable GitHub Actions:**
+   - Log into GitHub and open your repository.
+   - Go to the "Actions" tab and click on "Set up a workflow yourself".
+   - Paste the workflow code inside `main.yml` and commit the changes.
+
+4. **Verify Workflow Execution:**
+   - Open the "Actions" tab in your repository.
+   - You'll see the lint workflow has been triggered automatically.
+   - Click on the workflow run to view the individual jobs and their logs.
+   - Ensure that the workflow completes successfully.
+
+5. **Uncomment Additional Linting Rules (Optional):**
+   - Uncomment the lines in the workflow file to lint other JavaScript files in your project.
+   - Commit and push the changes to trigger the linting workflow again.
+
+6. **Submission:**
+   - Take a screenshot of the successful action workflow and save it as `CICD.png`.
+
+**Summary:**
+
+In this lab, you integrated a linting service into your GitHub repository using GitHub Actions. This automated the code review process, ensuring that all new code meets syntax requirements and adheres to team coding standards.
