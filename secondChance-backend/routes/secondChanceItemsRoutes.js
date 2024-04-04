@@ -10,11 +10,11 @@ const directoryPath = 'public/images'
 // Set up storage for uploaded files
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, directoryPath); // Specify the upload directory
+    cb(null, directoryPath) // Specify the upload directory
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname); // Use the original file name
-  },
+    cb(null, file.originalname) // Use the original file name
+  }
 })
 
 const upload = multer({ storage: storage })
@@ -23,9 +23,8 @@ const upload = multer({ storage: storage })
 router.get('/', async (req, res, next) => {
   logger.info('/ called')
   try {
-    //Step 2:
     const db = await connectToDatabase()
-    const collection = db.collection("secondChanceItems")
+    const collection = db.collection('secondChanceItems')
     const secondChanceItems = await collection.find({}).toArray()
     res.json(secondChanceItems)
   }
@@ -38,7 +37,6 @@ router.get('/', async (req, res, next) => {
 // Add a new item
 router.post('/', upload.single('file'), async (req, res, next) => {
   try {
-    //Step 3:
     const itemId = req.params.id
     const db = await connectToDatabase()
     const collection = db.collection("secondChanceItems")
@@ -59,10 +57,9 @@ router.post('/', upload.single('file'), async (req, res, next) => {
 // Get a single secondChanceItem by ID
 router.get('/:id', async (req, res, next) => {
   try {
-    //Step 4:
     const itemId = req.params.id
     const db = await connectToDatabase()
-    const collection = db.collection("secondChanceItems")
+    const collection = db.collection('secondChanceItems')
     const secondChanceItem = await collection.findOne({ id: itemId })
     if (!secondChanceItem) {
       return res.status(404).send("secondChanceItem not found")
@@ -76,10 +73,9 @@ router.get('/:id', async (req, res, next) => {
 // Update and existing item
 router.put('/:id', async (req, res, next) => {
   try {
-    //Step 5:
     const itemId = req.params.id
     const db = await connectToDatabase()
-    const collection = db.collection("secondChanceItems")
+    const collection = db.collection('secondChanceItems')
     const secondChanceItem = await collection.findOne({ id: itemId })
     if (!secondChanceItem) {
       logger.error('secondChanceItem not found')
@@ -110,10 +106,9 @@ router.put('/:id', async (req, res, next) => {
 // Delete an existing item
 router.delete('/:id', async (req, res, next) => {
   try {
-    //Step 6:
     const itemId = req.params.id
     const db = await connectToDatabase()
-    const collection = db.collection("secondChanceItems")
+    const collection = db.collection('secondChanceItems')
     const secondChanceItem = await collection.findOne({ id: itemId })
     if (!secondChanceItem) {
       logger.error('secondChanceItem not found')
