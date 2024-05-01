@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: secondchanceapp-container
-        image: us.icr.io/sn-labs-foxtonalan/secondchanceapp:latest
+        image: us.icr.io/sn-labs-foxtonalan/secondchanceapp
         ports:
         - containerPort: 3060
       imagePullSecrets:
